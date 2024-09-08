@@ -15,17 +15,37 @@ import { FormsModule } from '@angular/forms';
 
 export class AppComponent {
   items:WishItem[] = [
-    // new WishItem('To Learn Angular'),
-    // new WishItem('Get Coffee', true),
-    // new WishItem('Find grass that cuts itself')  
+    new WishItem('To Learn Angular'),
+    new WishItem('Get Coffee', true),
+    new WishItem('Find grass that cuts itself')  
   ];
 
-  title = 'wishlist';
-  newWishText = "";
+  visibleItems:WishItem[] = this.items
+
+  title = 'wishlist'
+  newWishText = ''
+  listfilter:String = '0'
 
   addNewWish(){
     this.items.push(new WishItem(this.newWishText))
     this.newWishText = ''
+  }
+
+  filterChange(value:any){
+    switch(Number(value)){
+      case 0:
+        this.visibleItems = this.items
+        break
+      
+      case 1:
+        this.visibleItems = this.items.filter(item => !item.isComplete)
+        break
+
+      case 2:
+        this.visibleItems = this.items.filter(item => item.isComplete)
+        break
+    }
+
   }
 
   toggleItem(item : WishItem){
