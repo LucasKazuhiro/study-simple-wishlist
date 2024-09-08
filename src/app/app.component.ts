@@ -20,32 +20,29 @@ export class AppComponent {
     new WishItem('Find grass that cuts itself')  
   ];
 
-  visibleItems:WishItem[] = this.items
+  get visibleItems() : WishItem[]{
+    let value = this.listFilter
+
+    switch(Number(value)){
+      case 0:
+      default:
+        return this.items
+      
+      case 1:
+        return this.items.filter(item => !item.isComplete)
+
+      case 2:
+        return this.items.filter(item => item.isComplete)
+    }
+  }
 
   title = 'wishlist'
   newWishText = ''
-  listfilter:String = '0'
+  listFilter:String = '0'
 
   addNewWish(){
     this.items.push(new WishItem(this.newWishText))
     this.newWishText = ''
-  }
-
-  filterChange(value:any){
-    switch(Number(value)){
-      case 0:
-        this.visibleItems = this.items
-        break
-      
-      case 1:
-        this.visibleItems = this.items.filter(item => !item.isComplete)
-        break
-
-      case 2:
-        this.visibleItems = this.items.filter(item => item.isComplete)
-        break
-    }
-
   }
 
   toggleItem(item : WishItem){
